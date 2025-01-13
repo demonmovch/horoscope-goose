@@ -1,6 +1,7 @@
 <template>
-  <label>
-    {{ zodiacSign }}
+  <label class="wrapper">
+    <img :src="data.image" alt="" />
+    <span class="label">{{ data.label }}</span>
   </label>
 </template>
 
@@ -14,8 +15,19 @@ export default {
     return {};
   },
   components: {},
-  props: ['zodiacSign'],
+  props: ['data'],
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.label {
+}
+</style>

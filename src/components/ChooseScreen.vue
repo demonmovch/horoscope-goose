@@ -1,6 +1,9 @@
 <template>
   <h1 class="heading">Обери свій знак зодіаку</h1>
-  <Zodiac v-for="item in zodiacData" :zodiacSign="item.zodiacSign" />
+  <div class="zodiac-container">
+    <Zodiac v-for="item in zodiacData" :data="item" />
+  </div>
+  <button class="primary btn" @click="handleBtnClick">Продовжити</button>
 </template>
 
 <script>
@@ -12,14 +15,20 @@ export default {
   setup() {
     const store = useStore();
 
-    return { zodiacData };
+    function handleBtnClick() {}
+
+    return { handleBtnClick, zodiacData };
   },
   components: { Zodiac },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .heading {
-  margin-top: 51px;
+  margin: 51px 0 40px;
+}
+
+.btn {
+  margin-top: 32px;
 }
 </style>

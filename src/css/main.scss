@@ -7,9 +7,17 @@
   outline: 0;
 }
 
+html,
+body {
+  height: 100%;
+  background: #f0f2f8;
+  overflow: auto;
+}
+
 main {
   width: 428px;
   margin: 0 auto;
+  padding-bottom: 21px;
 }
 
 h1 {
@@ -48,4 +56,11 @@ button.primary {
   width: 1px;
   clip: rect(0 0 0 0);
   overflow: hidden;
+}
+
+.zodiac-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+  row-gap: 27px;
 }
