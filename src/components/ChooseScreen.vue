@@ -1,9 +1,17 @@
 <template>
   <h1 class="heading">Обери свій знак зодіаку</h1>
+  {{ store.firstSelectedZodiacSign }}
   <div class="zodiac-container">
-    <Zodiac v-for="item in zodiacData" :data="item" />
+    <Zodiac
+      v-for="item in zodiacData"
+      :key="item.id"
+      :data="item"
+      v-model="store.firstSelectedZodiacSign"
+    />
   </div>
-  <button class="primary btn" @click="handleBtnClick">Продовжити</button>
+  <button v-if="store.firstSelectedZodiacSign" class="primary btn" @click="handleBtnClick">
+    Продовжити
+  </button>
 </template>
 
 <script>
@@ -17,7 +25,7 @@ export default {
 
     function handleBtnClick() {}
 
-    return { handleBtnClick, zodiacData };
+    return { store, handleBtnClick, zodiacData };
   },
   components: { Zodiac },
 };

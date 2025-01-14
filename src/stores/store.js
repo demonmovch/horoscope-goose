@@ -3,10 +3,12 @@ import { screens } from '../constants';
 
 const { start } = screens;
 
-export const useStore = defineStore('store', {
+const store = {
   state: () => ({
     selectedScreen: start,
     firstSelectedZodiacSign: null,
     secondSelectedZodiacSign: null,
   }),
-});
+};
+
+export const useStore = defineStore('store', store);
