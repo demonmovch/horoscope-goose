@@ -1,7 +1,7 @@
 <template>
   <StartScreenImage />
   <h1>Зодіакальний бандерогусь</h1>
-  <button class="primary btn" @click="handleBtnClick">Продовжити</button>
+  <button class="primary" @click="handleBtnClick">Продовжити</button>
 </template>
 
 <script>
@@ -19,14 +19,8 @@ export default {
 
     return { handleBtnClick };
   },
-  components: {
-    StartScreenImage,
-  },
+  components: { StartScreenImage },
 };
 </script>
 
-<style scoped>
-.btn {
-  margin-top: 10px;
-}
-</style>
+<style scoped></style>

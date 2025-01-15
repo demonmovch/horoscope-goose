@@ -6,7 +6,7 @@
       name="zodiac"
       class="visually-hidden"
       :checked="selected"
-      @change="$emit('update:modelValue', $event.target.value)"
+      @change="handleChange"
     />
     <img :src="image" alt="" />
     <span class="label">{{ data.label }}</span>
@@ -18,12 +18,23 @@ import { computed } from 'vue';
 import { useStore } from '@/stores/store';
 
 export default {
-  setup(props) {
+  setup(props, context) {
     const store = useStore();
     const selected = computed(() => props.modelValue === props.data.id);
     const image = computed(() => (selected.value ? props.data.imageColored : props.data.image));
 
-    return { store, image, selected };
+    function handleChange(event) {
+      context.emit('update:modelValue', event.target.value);
+
+      /* we call requestAnimationFrame() to scroll at the next repaint after button Продовжити is mounted */
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          document.body.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+      });
+    }
+
+    return { store, image, selected, handleChange };
   },
   props: ['data', 'modelValue'],
   emits: ['update:modelValue'],

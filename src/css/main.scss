@@ -9,24 +9,30 @@
 
 html,
 body {
-  height: 100%;
   background: #f0f2f8;
   overflow: auto;
+}
+
+html,
+body,
+#app,
+main {
+  height: 100%;
 }
 
 main {
   width: 428px;
   margin: 0 auto;
-  padding-bottom: 21px;
+  border-top: 1px solid transparent;
 }
 
 h1 {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 32px;
-  letter-spacing: 0.5px;
-  color: #3e3e3e;
-  text-align: center;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  line-height: 32px !important;
+  letter-spacing: 0.5px !important;
+  color: #3e3e3e !important;
+  text-align: center !important;
 }
 
 ul {
@@ -36,6 +42,7 @@ ul {
 button {
   display: block;
   cursor: pointer;
+  border-color: transparent !important;
 }
 
 button.primary {
@@ -48,6 +55,10 @@ button.primary {
   color: #fff;
   width: 100%;
   padding: 12px 0;
+
+  &:hover {
+    color: #fff !important;
+  }
 }
 
 .visually-hidden {
@@ -63,4 +74,5 @@ button.primary {
   grid-template-columns: auto auto auto;
   justify-content: space-between;
   row-gap: 27px;
+  padding-bottom: 21px;
 }

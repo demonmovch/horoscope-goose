@@ -1,6 +1,5 @@
 <template>
   <h1 class="heading">Обери свій знак зодіаку</h1>
-  {{ store.firstSelectedZodiacSign }}
   <div class="zodiac-container">
     <Zodiac
       v-for="item in zodiacData"
@@ -16,6 +15,7 @@
 
 <script>
 import { useStore } from '@/stores/store';
+import { screens } from '@/constants';
 import { zodiacData } from '@/constants';
 import Zodiac from '../components/Zodiac.vue';
 
@@ -23,7 +23,9 @@ export default {
   setup() {
     const store = useStore();
 
-    function handleBtnClick() {}
+    function handleBtnClick() {
+      store.selectedScreen = screens.main;
+    }
 
     return { store, handleBtnClick, zodiacData };
   },
@@ -37,6 +39,6 @@ export default {
 }
 
 .btn {
-  margin-top: 32px;
+  margin: 11px auto 32px;
 }
 </style>
