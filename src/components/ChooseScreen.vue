@@ -15,8 +15,7 @@
 
 <script>
 import { useStore } from '@/stores/store';
-import { screens } from '@/constants';
-import { zodiacData } from '@/constants';
+import { screens, zodiacData } from '@/constants';
 import Zodiac from '../components/Zodiac.vue';
 
 export default {

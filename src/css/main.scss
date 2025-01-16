@@ -1,16 +1,15 @@
 * {
-  font-family: Arial;
-  box-sizing: border-box;
+  font-family: Arial !important;
+  box-sizing: border-box !important;
   border: 0;
   padding: 0;
   margin: 0;
-  outline: 0;
+  outline: 0 !important;
 }
 
 html,
 body {
-  background: #f0f2f8;
-  overflow: auto;
+  background: #f0f2f8 !important;
 }
 
 html,
@@ -37,6 +36,10 @@ h1 {
 
 ul {
   list-style: none;
+}
+
+p {
+  margin: 0 !important;
 }
 
 button {
@@ -75,4 +78,30 @@ button.primary {
   justify-content: space-between;
   row-gap: 27px;
   padding-bottom: 21px;
+}
+
+.current-zodiac-sign {
+  display: flex;
+  margin-bottom: 22px;
+
+  &__text {
+    margin-left: 14px;
+  }
+
+  &__heading,
+  &__sign-name {
+    font-size: 16px;
+  }
+
+  &__heading {
+    line-height: 20px;
+    color: #3e3e3e;
+  }
+
+  &__sign-name {
+    text-align: center;
+    font-weight: 700;
+    line-height: 24px;
+    color: #000;
+  }
 }

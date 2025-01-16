@@ -1,10 +1,35 @@
 <template>
   <div class="main-screen">
-    <button class="btn" @click="handleBackClick">< Всі знаки</button>
+    <button class="btn-back" @click="handleBackClick">< Всі знаки</button>
+    <div class="current-zodiac-sign">
+      <img :src="selectedZodiacSign.imageColored" alt="" />
+      <div class="current-zodiac-sign__text">
+        <p class="current-zodiac-sign__heading">Прогноз для знаку</p>
+        <p class="current-zodiac-sign__sign-name">{{ selectedZodiacSign.label }}</p>
+      </div>
+    </div>
     <CTabs activeItemKey="horoscope" class="tabs">
       <CTabContent class="tab-content">
-        <CTabPanel itemKey="horoscope"><p class="description" v-html="description"></p></CTabPanel>
-        <CTabPanel itemKey="compatibility"> Profile tab content </CTabPanel>
+        <CTabPanel itemKey="horoscope" class="tab-panel">
+          <p class="description" v-html="selectedZodiacSign.description"></p>
+        </CTabPanel>
+        <CTabPanel itemKey="compatibility" class="tab-panel">
+          <div v-if="!showCompatibility" class="zodiac-container">
+            <Zodiac
+              v-for="item in restOfZodiacs"
+              :key="item.id"
+              :data="item"
+              v-model="store.secondSelectedZodiacSign"
+            />
+          </div>
+          <button
+            v-if="store.secondSelectedZodiacSign && !showCompatibility"
+            class="primary btn"
+            @click="handleContinueClick"
+          >
+            Продовжити
+          </button>
+        </CTabPanel>
       </CTabContent>
       <CTabList variant="tabs" class="tabs-list">
         <CTab itemKey="horoscope" class="tab"><MoonIcon />Гороскоп</CTab>
@@ -15,28 +40,43 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from '@/stores/store';
-import { screens } from '@/constants';
+import { screens, zodiacData } from '@/constants';
+import Zodiac from '../components/Zodiac.vue';
 import { CTabContent, CTabList, CTabPanel, CTabs, CTab } from '@coreui/vue';
 import MoonIcon from '../images/moon.vue';
 import HeartIcon from '../images/heart.vue';
-import { zodiacData } from '@/constants';
 
 export default {
   setup() {
     const store = useStore();
-    const description = computed(
-      () => zodiacData.find((item) => item.id === store.firstSelectedZodiacSign).description
+    const showCompatibility = ref(false);
+    const selectedZodiacSign = computed(() =>
+      zodiacData.find((item) => item.id === store.firstSelectedZodiacSign)
+    );
+    const restOfZodiacs = computed(() =>
+      zodiacData.filter((item) => item.id !== store.firstSelectedZodiacSign)
     );
 
     function handleBackClick() {
       store.selectedScreen = screens.choose;
     }
 
-    return { handleBackClick, description };
+    function handleContinueClick() {
+      showCompatibility.value = true;
+    }
+
+    return {
+      store,
+      handleBackClick,
+      handleContinueClick,
+      selectedZodiacSign,
+      restOfZodiacs,
+      showCompatibility,
+    };
   },
-  components: { CTabContent, CTabList, CTabPanel, CTabs, CTab, MoonIcon, HeartIcon },
+  components: { Zodiac, CTabContent, CTabList, CTabPanel, CTabs, CTab, MoonIcon, HeartIcon },
 };
 </script>
 
@@ -46,7 +86,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow: hidden;
 }
 
 .tabs {
@@ -58,8 +97,8 @@ export default {
 
 .tabs-list {
   display: flex;
-  margin-top: auto;
-  border-top: 2px solid #f0f2f8 !important;
+  margin-top: 50px;
+  border-top: 2px solid #ccc !important;
   border-bottom: none !important;
   border-left: none !important;
   border-right: none !important;
@@ -75,6 +114,7 @@ export default {
   flex-direction: column !important;
   flex-grow: 0.5 !important;
   border: none !important;
+  background: none !important;
 
   &.active {
     color: #007aff !important;
@@ -85,17 +125,16 @@ export default {
   }
 }
 
-.tab-content {
-}
-
 .btn {
-  margin: 32px 0 45px;
-  padding: 0 !important;
-  color: #007aff;
+  &-back {
+    margin: 32px 0 45px;
+    padding: 0 !important;
+    color: #007aff;
 
-  &:active {
-    color: #007aff !important;
-    background-color: transparent !important;
+    &:active {
+      color: #007aff !important;
+      background-color: transparent !important;
+    }
   }
 }
 

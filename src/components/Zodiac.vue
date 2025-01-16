@@ -29,7 +29,10 @@ export default {
       /* we call requestAnimationFrame() to scroll at the next repaint after button Продовжити is mounted */
       window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => {
-          document.body.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          document.documentElement.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
+          });
         });
       });
     }
