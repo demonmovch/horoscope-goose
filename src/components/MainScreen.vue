@@ -1,22 +1,34 @@
 <template>
   <div class="main-screen">
     <button class="btn-back" @click="handleBackClick">< Всі знаки</button>
-    <div class="current-zodiac-sign">
-      <img :src="selectedZodiacSign.imageColored" alt="" />
-      <div class="current-zodiac-sign__text">
-        <p class="current-zodiac-sign__heading">Прогноз для знаку</p>
-        <p class="current-zodiac-sign__sign-name">{{ selectedZodiacSign.label }}</p>
-      </div>
-    </div>
     <CTabs activeItemKey="horoscope" class="tabs">
       <CTabContent class="tab-content">
         <CTabPanel itemKey="horoscope" class="tab-panel">
-          <p class="description" v-html="selectedZodiacSign.description"></p>
+          <Header
+            :image="firstSelectedZodiacSign.imageColored"
+            :name="firstSelectedZodiacSign.label"
+            :text="'Прогноз для знаку'"
+          />
+          <p class="description" v-html="firstSelectedZodiacSign.description"></p>
         </CTabPanel>
         <CTabPanel itemKey="compatibility" class="tab-panel">
+          <Header
+            :image="firstSelectedZodiacSign.imageColored"
+            :name="firstSelectedZodiacSign.label"
+            :text="'Сумісність для знаку'"
+            :nameTextAlignLeft="showCompatibility"
+          />
+          <div v-if="secondSelectedZodiacSign && showCompatibility">
+            <Header
+              :image="secondSelectedZodiacSign.imageColored"
+              :name="secondSelectedZodiacSign.label"
+              :text="'зі знаком'"
+              :nameTextAlignLeft="true"
+            />
+          </div>
           <div v-if="!showCompatibility" class="zodiac-container">
             <Zodiac
-              v-for="item in restOfZodiacs"
+              v-for="item in zodiacData"
               :key="item.id"
               :data="item"
               v-model="store.secondSelectedZodiacSign"
@@ -44,6 +56,7 @@ import { ref, computed } from 'vue';
 import { useStore } from '@/stores/store';
 import { screens, zodiacData } from '@/constants';
 import Zodiac from '../components/Zodiac.vue';
+import Header from '../components/Header.vue';
 import { CTabContent, CTabList, CTabPanel, CTabs, CTab } from '@coreui/vue';
 import MoonIcon from '../images/moon.vue';
 import HeartIcon from '../images/heart.vue';
@@ -52,11 +65,11 @@ export default {
   setup() {
     const store = useStore();
     const showCompatibility = ref(false);
-    const selectedZodiacSign = computed(() =>
+    const firstSelectedZodiacSign = computed(() =>
       zodiacData.find((item) => item.id === store.firstSelectedZodiacSign)
     );
-    const restOfZodiacs = computed(() =>
-      zodiacData.filter((item) => item.id !== store.firstSelectedZodiacSign)
+    const secondSelectedZodiacSign = computed(() =>
+      zodiacData.find((item) => item.id === store.secondSelectedZodiacSign)
     );
 
     function handleBackClick() {
@@ -71,12 +84,23 @@ export default {
       store,
       handleBackClick,
       handleContinueClick,
-      selectedZodiacSign,
-      restOfZodiacs,
+      firstSelectedZodiacSign,
+      secondSelectedZodiacSign,
+      zodiacData,
       showCompatibility,
     };
   },
-  components: { Zodiac, CTabContent, CTabList, CTabPanel, CTabs, CTab, MoonIcon, HeartIcon },
+  components: {
+    Header,
+    Zodiac,
+    CTabContent,
+    CTabList,
+    CTabPanel,
+    CTabs,
+    CTab,
+    MoonIcon,
+    HeartIcon,
+  },
 };
 </script>
 
