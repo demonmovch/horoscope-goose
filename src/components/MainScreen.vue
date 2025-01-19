@@ -9,7 +9,7 @@
             :name="firstSelectedZodiacSign.label"
             :text="'Прогноз для знаку'"
           />
-          <p class="description" v-html="firstSelectedZodiacSign.description"></p>
+          <p v-html="firstSelectedZodiacSign.description" class="description"></p>
         </CTabPanel>
         <CTabPanel itemKey="compatibility" class="tab-panel">
           <Header
@@ -25,6 +25,7 @@
               :text="'зі знаком'"
               :nameTextAlignLeft="true"
             />
+            <p v-html="compatibility" class="description"></p>
           </div>
           <div v-if="!showCompatibility" class="zodiac-container">
             <Zodiac
@@ -35,7 +36,7 @@
             />
           </div>
           <button
-            v-if="store.secondSelectedZodiacSign && !showCompatibility"
+            v-if="secondSelectedZodiacSign && !showCompatibility"
             class="primary btn"
             @click="handleContinueClick"
           >
@@ -54,7 +55,7 @@
 <script>
 import { ref, computed } from 'vue';
 import { useStore } from '@/stores/store';
-import { screens, zodiacData } from '@/constants';
+import { screens, zodiacData, COMPATIBILITY_VALUES, COMPATIBILITY_TABLE } from '@/constants';
 import Zodiac from '../components/Zodiac.vue';
 import Header from '../components/Header.vue';
 import { CTabContent, CTabList, CTabPanel, CTabs, CTab } from '@coreui/vue';
@@ -71,6 +72,11 @@ export default {
     const secondSelectedZodiacSign = computed(() =>
       zodiacData.find((item) => item.id === store.secondSelectedZodiacSign)
     );
+    const compatibility = computed(() => {
+      const compatibilityNumber =
+        COMPATIBILITY_TABLE[store.firstSelectedZodiacSign][store.secondSelectedZodiacSign];
+      return COMPATIBILITY_VALUES[compatibilityNumber];
+    });
 
     function handleBackClick() {
       store.selectedScreen = screens.choose;
@@ -88,6 +94,7 @@ export default {
       secondSelectedZodiacSign,
       zodiacData,
       showCompatibility,
+      compatibility,
     };
   },
   components: {
@@ -126,6 +133,7 @@ export default {
   border-bottom: none !important;
   border-left: none !important;
   border-right: none !important;
+  padding-bottom: 20px !important;
 }
 
 .tab {
